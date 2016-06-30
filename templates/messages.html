@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block title %}
+    Thread: {{ thread.title }}
+{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <h1>Thread: {{ thread.title }}</h1>
+
+
+        <ol class=" breadcrumb">
+            <li><a href="/topics">Topics</a></li>
+            <li><a href="/{{ topic.pk }}/threads">{{ topic.name }}</a></li>
+            <li><a href="#">{{ thread.title }}</a></li>
+        </ol>
+
+
+        <ul class="list-group">
+            {% for message in forum_messages %}
+                <div class="panel panel-primary">
+                {% if forloop.first %}
+                    <div class="panel-heading" style="background-color: #44619b;">
+                {% else %}
+                    <div class="panel-heading">
+                {% endif %}
+            <span class="badge pull-right">{{ message.date_created }}</span>
+
+            <h3 class="panel-title"><b>{{ message.user.user.username }}</b> {{ message.title }}</h3>
+            </div>
+            <div class="panel-body" style="color: #000;">
+                {{ message.content }}
+                <img width="60px" height="60px" class="pull-right" style="margin-top: 20px"
+                     src="{{ message.user.photo.url }}"/>
+            </div></div>
+            {% endfor %}
+            <br/>
+        </ul>
+
+        {% if user.is_authenticated %}
+            <form method="post" id="form_message">
+                <h1>Write a new message</h1>
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <button type="submit" class="btn btn-warning">Submit</button>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

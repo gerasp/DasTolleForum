@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block title %}
+    Welcome page
+{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <div class="jumbotron" style="color: #000;;">
+            <h1>Welcome</h1>
+            <p>You can find the list of topics on the upper navbar or clicking on this button</p>
+            <p><a class="btn btn-primary btn-lg" href="/topics" role="button">Topics list</a></p>
+        </div>
+    </div>
+
+
+    <div class="container">
+
+        <ul class="list-group">
+            <li class="list-group-item active">Last threads</li>
+
+            {% for last_thread in last_threads %}
+
+                <li class="list-group-item stripedli">
+                    <span class="badge"></span>
+                            <span class="badge" style="background-color: red">{{ last_thread.date_created }}</span>
+                    <a href="/{{ last_thread.topic.pk }}/{{ last_thread.pk }}/messages">{{ last_thread }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="container ">
+        <div class="row ">
+
+            <div class="col-xs-12 col-md-6">
+
+                <ul class="list-group">
+                    <li class="list-group-item active">Top active users</li>
+
+                    {% for active_user in active_users %}
+                        <li class="list-group-item stripedli">
+                            <span class="badge" style="background-color: limegreen">{{ active_user.no_of_messages }} messages</span>
+                            {{ active_user.user.username }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="col-xs-12 col-md-6">
+                <ul class="list-group ">
+                    <li class="list-group-item active">Last registered users</li>
+
+                    {% for last_user in last_users %}
+                        <li class="list-group-item stripedli">
+                            <span class="badge" style="background-color: orange">{{ last_user.user.date_joined.date }}</span>
+                            {{ last_user.user.username }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

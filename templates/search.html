@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block title %}
+    Search: {{ keywords }}
+{% endblock %}
+{% block content %}
+
+
+    <h1>Search results for: "{{ keywords }}"
+    </h1>
+
+
+    <ul class="centering list-group">
+
+        {% for result in results %}
+            <li class="list-group-item">
+                <span class="badge" style="background-color: cornflowerblue">{{ result.no_of_messages }} messages</span>
+                <a href="/{{ result.topic.pk }}/{{ result.pk }}/messages">{{ result.title }}</a>
+            </li>
+        {% endfor %}
+
+    </ul>
+
+    <center>
+        <nav>
+            <ul class="pagination">
+
+                <li {% if not results.has_previous %}class="disabled"{% endif %}>
+                    <a {% if results.has_previous %}href="?q={{ keywords }}&page={{ results.previous_page_number }}"{% endif %}>
+                        <span aria-hidden="true">&laquo;</span></a></li>
+
+                {% for range in results.paginator.page_range %}
+                    {% if range == results.number %}
+                        <li class="active "><a href="?q={{ keywords }}&page={{ range }}">{{ range }}</a></li>
+                    {% else %}
+                        <li class="{% if range == results.number %}active {% endif %}"><a
+                                href="?q={{ keywords }}&page={{ range }}">{{ range }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                <li {% if not results.has_next %}class="disabled"{% endif %}>
+                    <a  {% if results.has_next %}
+                        href="?q={{ keywords }}&page={{ results.next_page_number }}" {% endif %}>
+                        <span aria-hidden="true">&raquo;</span></a></li>
+
+
+            </ul>
+        </nav>
+    </center>
+
+{% endblock %}
