@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block title %}
+    Topic: {{ topic.name }}
+{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <h1>Threads of topic: {{ topic.name }}
+            <a href="/{{ topic.pk }}/threads/add">
+                {% if user.is_authenticated %}
+
+                    <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-plus-sign"
+                                                                        aria-hidden="true"></span> Create thread
+                    </button>
+                {% endif %}
+
+            </a>
+        </h1>
+
+        <ol class="breadcrumb">
+            <li><a href="/topics">Topics</a></li>
+            <li><a href="#">{{ topic.name }}</a></li>
+        </ol>
+
+        <ul class="list-group">
+
+            {% for thread in threads %}
+                <li class="list-group-item stripedli">
+                    <span class="badge"
+                          style="background-color: cornflowerblue">{{ thread.no_of_messages }} messages</span>
+                    <a href="/{{ topic.pk }}/{{ thread.pk }}/messages">{{ thread.title }}</a>
+                    {% for group in user.groups.all %}{% if group.name == 'Admin' %}
+                        <a href="/{{ topic.pk }}/threads/remove/{{ thread.pk }}"
+                           onclick="return confirm('Do you really want to delete this topic?');">
+                    <span class="label label-danger pull-right"><span
+                            class="glyphicon glyphicon-trash"></span> Remove</span></a>
+
+                        <a href="/{{ topic.pk }}/threads/edit/{{ thread.pk }}"><span
+                                class="label label-success pull-right"><span
+                                class="glyphicon glyphicon-edit"></span> Edit</span></a>
+                    {% endif %}{% endfor %}
+
+                </li>
+            {% endfor %}
+
+        </ul>
+        <center>
+            <nav>
+                <ul class="pagination">
+
+                    <li {% if not threads.has_previous %}class="disabled"{% endif %}>
+                        <a {% if threads.has_previous %}href="?page={{ threads.previous_page_number }}"{% endif %}>
+                            <span aria-hidden="true">&laquo;</span></a></li>
+
+                    {% for range in threads.paginator.page_range %}
+                        {% if range == threads.number %}
+                            <li class="active "><a href="?page={{ range }}">{{ range }}</a></li>
+                        {% else %}
+                            <li class="{% if range == threads.number %}active {% endif %}"><a
+                                    href="?page={{ range }}">{{ range }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    <li {% if not threads.has_next %}class="disabled"{% endif %}>
+                        <a  {% if threads.has_next %} href="?page={{ threads.next_page_number }}" {% endif %}>
+                            <span aria-hidden="true">&raquo;</span></a></li>
+
+
+                </ul>
+            </nav>
+        </center>
+    </div>
+{% endblock %}

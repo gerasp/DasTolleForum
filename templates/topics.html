@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block title %}
+    Forum topics
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>Topics list
+            <a href="/topics/add">
+                {% for group in user.groups.all %}{% if group.name == 'Admin' %}
+                    <button type="button" class="btn  btn-warning">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add new topic
+                    </button>
+                {% endif %}{% endfor %}
+            </a></h1>
+
+        <ol class=" breadcrumb">
+            <li><a href="/topics">Topics</a></li>
+            <li><a href="#"></a></li>
+        </ol>
+
+
+        <ul class="list-group">
+
+            {% for topic in topics %}
+                <li class="list-group-item stripedli">
+                    <span class="badge"
+                          style="background-color: cornflowerblue">{{ topic.no_of_threads }} threads</span>
+                    <a href="/{{ topic.pk }}/threads">{{ topic.name }}</a>
+                    {% for group in user.groups.all %}{% if group.name == 'Admin' %}
+                        <a href="/topics/remove/{{ topic.pk }}"
+                           onclick="return confirm('Do you really want to delete this topic?');">
+                <span class="label label-danger pull-right"><span
+                        class="glyphicon glyphicon-trash"></span> Remove</span></a>
+
+                        <a href="/topics/edit/{{ topic.pk }}"><span class="label label-success pull-right"><span
+                                class="glyphicon glyphicon-edit"></span> Edit</span></a>
+                    {% endif %}{% endfor %}
+
+                </li>
+            {% endfor %}
+
+        </ul>
+        <center>
+            <nav>
+                <ul class="pagination">
+
+                    <li {% if not topics.has_previous %}class="disabled"{% endif %}>
+                        <a {% if topics.has_previous %}href="?page={{ topics.previous_page_number }}"{% endif %}>
+                            <span aria-hidden="true">&laquo;</span></a></li>
+
+                    {% for range in topics.paginator.page_range %}
+                        {% if range == topics.number %}
+                            <li class="active "><a href="?page={{ range }}">{{ range }}</a></li>
+                        {% else %}
+                            <li class="{% if range == topics.number %}active {% endif %}"><a
+                                    href="?page={{ range }}">{{ range }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    <li {% if not topics.has_next %}class="disabled"{% endif %}>
+                        <a  {% if topics.has_next %} href="?page={{ topics.next_page_number }}" {% endif %}>
+                            <span aria-hidden="true">&raquo;</span></a></li>
+
+
+                </ul>
+            </nav>
+        </center>
+    </div>
+{% endblock %}

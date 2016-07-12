@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+    {% load staticfiles %}
+    {% load bootstrap3 %}
+    {% load custom_tags %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <link href="{% static "/static/css/simple-sidebar.css" %}" rel="stylesheet">
+    <link href="{% static "/static/css/styles.css" %}" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{% static "/static/favicon.ico" %}"/>
+
+    <style>
+        body {
+            background: url({% static "/static/dark_wood.png" %});
+        }
+    </style>
+    <title>
+        {% block title %}
+            Das Tolle Forum
+        {% endblock %}
+    </title>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-2" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/welcome"><b>Das Tolle Forum</b></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Menu<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/topics">Topics list</a></li>
+                        <li role="separator" class="divider"></li>
+                        {% if not user.is_authenticated %}
+                            <li><a href="/accounts/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                            <li><a href="/accounts/signup"><span class="glyphicon glyphicon-user"></span> Signup</a></li>
+                        {% else %}
+                            <li><a>
+                            Logged in as: {{ user.username }}
+                            {% for group in user.groups.all %}{% if group.name == 'Admin' %}
+                                (ADMIN)
+                            {% endif %}{% endfor %}
+                            </a></li>
+                            <li><a href="/accounts/logout">Log out</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/accounts/change_avatar/">Change
+                                avatar <span class="pull-right"><img class="img-circle" width="50px" height="50px"
+                                                                        src="{% profile_photo request %}"/> </span></a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+            </ul>
+            <form class="navbar-form nav navbar-nav navbar-right" method="get" action="/search">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="q" placeholder="Search term">
+                </div>
+                <button type="submit" class="btn btn-default">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="content">
+{% bootstrap_messages %}
+{% block content %}
+{% endblock %}
+</div>
+<footer class="footer fila">
+    <p class="text-muted" style="color: #4b4b4b;">Gerardo Medina © 2016</p>
+</footer>
+</body>
+</html>
