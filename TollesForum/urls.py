@@ -18,6 +18,8 @@ from django.contrib import admin
 import django.contrib.auth.views
 import forum.views
 from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -44,5 +46,4 @@ urlpatterns = [
     url(r'^accounts/logout/$', django.contrib.auth.views.logout, {'next_page': '/welcome'}),
     url(r'^accounts/change_avatar/$', forum.views.change_avatar),
 
-    url(r'^media/(?P<path>.*)$', django.views.static.serve, {'document_root': settings.MEDIA_ROOT,  }),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
