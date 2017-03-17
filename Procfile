@@ -1,1 +1,1 @@
-web: gunicorn TollesForum.wsgi:forum --log-file=-
+web: gunicorn forum.wsgi --log-file=-
