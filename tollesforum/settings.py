@@ -25,7 +25,7 @@ SECRET_KEY = '$7xh+$myonbmd&wt3o_6mhv-b7cf($rz(%*gej^#2jncqoqn5-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'dastolleforum.herokuapp.com']
+ALLOWED_HOSTS = [u'dastolleforum.herokuapp.com',u'localhost']
 
 
 # Application definition
@@ -71,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'forum.context_processors.profile_photo',
             ],
         },
     },
@@ -133,3 +134,4 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
