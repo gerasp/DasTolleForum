@@ -43,7 +43,7 @@ html, body {
 .fila {
     display: table-row;
     height: 1px;
-    font-family: "Trebuchet MS";
+    font-family: "Trebuchet MS", serif;
     font-size: 16px;
 }
 .stripedli:nth-child(odd) {

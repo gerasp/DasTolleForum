@@ -10,13 +10,12 @@
           integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
     {% bootstrap_css %}
     {% bootstrap_javascript %}
-    <link href="{% static "/static/css/simple-sidebar.css" %}" rel="stylesheet">
-    <link href="{% static "/static/css/styles.css" %}" rel="stylesheet">
-    <link rel="shortcut icon" type="image/png" href="{% static "/static/favicon.ico" %}"/>
+    <link href="{% static "/css/styles.css" %}" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{% static "/favicon.ico" %}"/>
 
     <style>
         body {
-            background: url({% static "/static/dark_wood.png" %});
+            background: url({% static "/dark_wood.png" %});
         }
     </style>
     <title>
@@ -75,7 +74,8 @@
     </div>
 </nav>
 <div class="content">
-{% bootstrap_messages %}
+<div class="container">
+{% bootstrap_messages %}</div>
 {% block content %}
 {% endblock %}
 </div>

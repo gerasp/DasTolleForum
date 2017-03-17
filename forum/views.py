@@ -19,7 +19,7 @@ def index(request):
     last_users = UserProfile.objects.order_by("user__date_joined").reverse()[0:5]
     last_threads = Thread.objects.order_by("date_created").reverse()[0:10]
 
-    return render(request, 'welcome.html', {'active_users':active_users,'last_users':last_users, 'last_threads':last_threads}, context_instance=RequestContext(request))
+    return render(request, 'welcome.html', {'active_users':active_users,'last_users':last_users, 'last_threads':last_threads})
 
 def signup(request):
     if request.method == 'POST':
