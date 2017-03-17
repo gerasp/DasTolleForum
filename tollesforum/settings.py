@@ -57,7 +57,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'TollesForum.urls'
+ROOT_URLCONF = 'tollesforum.urls'
 
 TEMPLATES = [
     {
@@ -76,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'TollesForum.wsgi.application'
+WSGI_APPLICATION = 'tollesforum.wsgi.application'
 
 
 # Database
